@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import firebase from './firebase'
 import './App.css'
 
+import axios from 'axios';
+
+
 class App extends Component {
   state = {
     user: null
@@ -21,6 +24,22 @@ class App extends Component {
   logout() {
     firebase.auth().signOut()
   }
+  getApi() {
+    const url = 'https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=東京';
+    axios
+    .get(url)
+    .then(res => {
+      const data = res.data;
+      const NextLinkKey = data.continue.plcontinue;
+      // const imageUrlList = data.map(item => item.images.downsized.url);
+      console.log(data,NextLinkKey);
+    })
+    .catch(error => {
+      // 非同期処理失敗。呼ばれない
+      console.log(error);
+      console.log("dataError");
+    });
+  }
 
   render() {
     return (
@@ -34,6 +53,12 @@ class App extends Component {
         ) : (
           <button onClick={this.login}>Google Login</button>
         )}
+        <h1>WikiAPI</h1>
+        <ul>
+          <li>
+            <button onClick={this.getApi}>get</button>
+          </li>
+        </ul>
       </div>
     )
   }
