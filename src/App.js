@@ -31,8 +31,9 @@ class App extends Component {
     .then(res => {
       const data = res.data;
       const NextLinkKey = data.continue.plcontinue;
-      // const imageUrlList = data.map(item => item.images.downsized.url);
-      console.log(data,NextLinkKey);
+      const pgaeId = NextLinkKey.split('|')[0];
+      const links = data.query.pages[pgaeId];
+      return links;
     })
     .catch(error => {
       // 非同期処理失敗。呼ばれない
