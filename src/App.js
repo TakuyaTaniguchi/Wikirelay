@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       user: null,
       links: [],
-      hoge: 'aaaa'
+      hoge: 'aaa'
     }
   }
 
