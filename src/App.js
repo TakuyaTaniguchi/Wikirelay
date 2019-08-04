@@ -75,7 +75,7 @@ class App extends React.Component {
         </p>
 
         {this.state.user ? (
-          <button onClick={this.logout}>Google Logout</button>
+          <button onClick={this.logout}>Google L ogout</button>
         ) : (
           <button onClick={this.login}>Google Login</button>
         )}
