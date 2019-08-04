@@ -92,3 +92,12 @@ class App extends React.Component {
 }
 
 export default App
+
+
+/**
+ * 要素を叩いた回数を持っておく
+ * 叩いたtitleを取得して次のリンクを表示
+ * もっと読み込むで次のリンク取得
+ * 叩いた履歴はlocalstorageに保存しておく
+ *  ローカルストレージのデータをfirabeseに保存する
+ */
