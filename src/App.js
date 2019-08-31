@@ -13,6 +13,7 @@ class App extends React.Component {
       user: null,
       links: [],
       headTitle: '',
+      NextLinkKey: '',
     }
   }
 
@@ -33,17 +34,17 @@ class App extends React.Component {
     console.log('logout')
     firebase.auth().signOut()
   }
-  getApiNextPage = (url) => {
-    console.log('getAPio')
+  getApiNextPage = (NextLinkKey) => {
     axios
-    .get('https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=ハリー・ポッターシリーズ&plcontinue=5694|0|1990年')
+    .get(`https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=ハリー・ポッターシリーズ&plcontinue=${NextLinkKey}`)
     .then(res => {
       const data = res.data;
-      console.log(data)
+      console.log(data);
       const NextLinkKey = data.continue.plcontinue;
       const pgaeId = NextLinkKey.split('|')[0];
       const links = data.query.pages[pgaeId].links;
-      this.setState({ links: links });
+      this.setState({ NextLinkKey: NextLinkKey });
+      this.setState({ links: this.state.links.concat(links)});
     })
     .catch(error => {
       // 非同期処理失敗。呼ばれない
@@ -51,19 +52,21 @@ class App extends React.Component {
       console.log("dataError");
     });
   }
-  getApi = (url) => {
-    console.log('getAPio')
+  getApi = (url,e) => {
+    console.log(e)
     axios
     .get('https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=ハリー・ポッターシリーズ')
     .then(res => {
       const data = res.data;
-      console.log(data)
       const NextLinkKey = data.continue.plcontinue;
+      console.log(NextLinkKey)
       const pgaeId = NextLinkKey.split('|')[0];
       const headTitle = data.query.pages[pgaeId].title;
       const links = data.query.pages[pgaeId].links;
       this.setState({ links: links });
       this.setState({ headTitle: headTitle });
+      this.setState({ NextLinkKey: NextLinkKey });
+
     })
     .catch(error => {
       // 非同期処理失敗。呼ばれない
@@ -102,7 +105,8 @@ class App extends React.Component {
         <h2>{this.state.headTitle}</h2>
         <ul>
           <li>
-            <button onClick={this.getApi}>get</button>
+            <button onClick={() => this.getApi()}>get</button>
+            <button onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
           </li>
           {this.list(this.state.links)}
         </ul>
