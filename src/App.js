@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       user: null,
       links: [],
-      hoge: 'aaa'
+      headTitle: '',
     }
   }
 
@@ -33,12 +33,13 @@ class App extends React.Component {
     console.log('logout')
     firebase.auth().signOut()
   }
-  getApi = (url) => {
+  getApiNextPage = (url) => {
     console.log('getAPio')
     axios
-    .get('https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=東京')
+    .get('https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=ハリー・ポッターシリーズ&plcontinue=5694|0|1990年')
     .then(res => {
       const data = res.data;
+      console.log(data)
       const NextLinkKey = data.continue.plcontinue;
       const pgaeId = NextLinkKey.split('|')[0];
       const links = data.query.pages[pgaeId].links;
@@ -50,19 +51,38 @@ class App extends React.Component {
       console.log("dataError");
     });
   }
+  getApi = (url) => {
+    console.log('getAPio')
+    axios
+    .get('https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=ハリー・ポッターシリーズ')
+    .then(res => {
+      const data = res.data;
+      console.log(data)
+      const NextLinkKey = data.continue.plcontinue;
+      const pgaeId = NextLinkKey.split('|')[0];
+      const headTitle = data.query.pages[pgaeId].title;
+      const links = data.query.pages[pgaeId].links;
+      this.setState({ links: links });
+      this.setState({ headTitle: headTitle });
+    })
+    .catch(error => {
+      // 非同期処理失敗。呼ばれない
+      console.log(error);
+      console.log("dataError");
+    });
+  }
   list = (links) =>{
     console.log(links)
     const titleList = links.map( (link,index) => {
-
       return (
         <li key={index}>
-          {link.title}
+          <a href="/" data-title={link.title}>{link.title}</a>
         </li>
       );
     });
     return (
       <ul>
-        <a href="/" >{titleList}</a>
+        {titleList}
       </ul>
     );
   }
@@ -73,13 +93,13 @@ class App extends React.Component {
         <p className="App-intro">
           UID: {this.state.user && this.state.user.uid}
         </p>
-
         {this.state.user ? (
           <button onClick={this.logout}>Google L ogout</button>
         ) : (
           <button onClick={this.login}>Google Login</button>
         )}
         <h1>WikiAPI</h1>
+        <h2>{this.state.headTitle}</h2>
         <ul>
           <li>
             <button onClick={this.getApi}>get</button>
@@ -99,5 +119,5 @@ export default App
  * 叩いたtitleを取得して次のリンクを表示
  * もっと読み込むで次のリンク取得
  * 叩いた履歴はlocalstorageに保存しておく
- *  ローカルストレージのデータをfirabeseに保存する
+ * ローカルストレージのデータをfirabeseに保存する
  */
