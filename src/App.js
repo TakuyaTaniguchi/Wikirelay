@@ -17,12 +17,12 @@ class App extends React.Component {
       links: [],
       headTitle: '',
       NextLinkKey: '',
+      NextTitle: [],
     }
   }
 
   componentDidMount() {
-    console.log('moune')
-    this.getApi();
+    this.getApi('ハリー・ポッターシリーズ');
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ user })
     })
@@ -40,11 +40,13 @@ class App extends React.Component {
   }
   getApiNextWord = (e) =>{
     e.preventDefault();
-    console.log('click')
+    const title = e.target.getAttribute('data-title');
+    this.setState({ NextTitle: title });
+    this.getApi(title,e);
   }
   getApiNextPage = (NextLinkKey) => {
     axios
-    .get(`https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=ハリー・ポッターシリーズ&plcontinue=${NextLinkKey}`)
+    .get(`https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=${this.state.headTitle}&plcontinue=${NextLinkKey}`)
     .then(res => {
       const data = res.data;
       console.log(data);
@@ -61,9 +63,9 @@ class App extends React.Component {
     });
   }
   getApi = (url,e) => {
-    console.log(e)
+    console.log(url,e)
     axios
-    .get('https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=ハリー・ポッターシリーズ')
+    .get(`https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=${url}`)
     .then(res => {
       const data = res.data;
       const NextLinkKey = data.continue.plcontinue;
@@ -74,7 +76,6 @@ class App extends React.Component {
       this.setState({ links: links });
       this.setState({ headTitle: headTitle });
       this.setState({ NextLinkKey: NextLinkKey });
-
     })
     .catch(error => {
       // 非同期処理失敗。呼ばれない
