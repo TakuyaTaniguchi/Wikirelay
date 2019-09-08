@@ -1,0 +1,140 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend {
+	background: none repeat scroll 0 0;
+	border: 0 none;
+	margin: 0;
+	outline: 0 none;
+	padding: 0;
+	vertical-align: baseline;
+}
+body {
+	position: relative;
+	background-color: #C0C0C0;
+	font-size: 16px;
+	color: black;
+	/* // line-height:$line_height;
+	// @if $-webkit-text-size-adjust == false {-webkit-text-size-adjust: none;} */
+	overflow-wrap: break-word;
+	letter-spacing: .1em;
+}
+
+*{
+	/* // @if $-webkit-tap-highlight == false {
+	// 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+	// } */
+
+	box-sizing: border-box;
+}
+
+h1,h2,h3,h4,h5,h6{
+	line-height: 1.2;
+}
+
+table, caption, tbody, tfoot, thead {
+	margin: 0;
+	outline: 0 none;
+	padding: 0;
+}
+
+th, td {
+	vertical-align: top;
+	background: none repeat scroll 0 0;
+	margin: 0;
+	outline: 0 none;
+	padding: 0;
+}
+
+p,span,div{
+	line-height:inherit;
+}
+
+a {
+	/* // color:$link_color; */
+	text-decoration: none;
+}
+
+img {
+    border:none;
+    outline:0 !important;
+}
+
+a:hover {
+	text-decoration: none;
+	/* // color:$link_hover_color; */
+}
+
+button:focus {outline:0 !important;}
+button:active {
+	outline:none;
+}
+
+a,p,img,div{
+	/* &:focus {
+		outline: none;
+	} */
+}
+
+ol, ul {list-style: none outside none;}
+
+fieldset, img {vertical-align: bottom;}
+
+blockquote, q {quotes: none;}
+
+blockquote:before, blockquote:after, q:before, q:after {content: none;}
+ins {text-decoration: none;}
+del {text-decoration: line-through;}
+table {border-collapse: collapse;border-spacing: 0;}
+br {letter-spacing: 0;}
+hr {border: 0 none;height: 0;visibility: hidden;}
+select, input, textarea {font-size: 99%;}
+pre, code {font: 100% monospace;}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+input[type="submit"],input[type="text"],textarea {
+	-webkit-appearance:none;
+}
+
+.pc,
+.pc-content {
+  /* @include breakpoint(breakPoint) {
+    display: none;
+  } */
+}
+
+.sp,
+.sp-content {
+  display: none;
+  /* @include breakpoint(breakPoint) {
+    display: block;
+  } */
+}
+
+/* @include breakpoint(breakPoint){
+	#responsive_flg {
+		display: none;
+	}
+} */
+
+/*clearfix*/
+.clearfix:after{
+	content:".";
+	display: block;
+	height:0px;
+	clear:both;
+	line-height:0;
+	visibility:hidden;
+}
+.clearfix {
+	*zoom:1;
+}
+
+
+/* content */
+.content{
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+}

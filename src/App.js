@@ -1,9 +1,12 @@
 import React from 'react'
-// import { render } from "react-dom"
+import { render } from "react-dom"
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import firebase from './firebase'
-import './App.css'
+import './scss/style.scss'
 
 import axios from 'axios';
+import { DEFAULT_ECDH_CURVE } from 'tls'
 
 
 class App extends React.Component {
@@ -19,6 +22,7 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log('moune')
+    this.getApi();
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ user })
     })
@@ -33,6 +37,10 @@ class App extends React.Component {
   logout() {
     console.log('logout')
     firebase.auth().signOut()
+  }
+  getApiNextWord = (e) =>{
+    e.preventDefault();
+    console.log('click')
   }
   getApiNextPage = (NextLinkKey) => {
     axios
@@ -78,38 +86,42 @@ class App extends React.Component {
     console.log(links)
     const titleList = links.map( (link,index) => {
       return (
-        <li key={index}>
-          <a href="/" data-title={link.title}>{link.title}</a>
+        <li key={index} className="linkList_item">
+          <a href="/" data-title={link.title} onClick={(e) => this.getApiNextWord(e)}>{link.title}</a>
         </li>
       );
     });
     return (
-      <ul>
-        {titleList}
+      <ul className="linkList">
+        {titleList.slice().reverse()}
       </ul>
     );
   }
 
   render() {
     return (
-      <div className="App">
-        <p className="App-intro">
-          UID: {this.state.user && this.state.user.uid}
-        </p>
-        {this.state.user ? (
-          <button onClick={this.logout}>Google L ogout</button>
-        ) : (
-          <button onClick={this.login}>Google Login</button>
-        )}
-        <h1>WikiAPI</h1>
-        <h2>{this.state.headTitle}</h2>
-        <ul>
-          <li>
-            <button onClick={() => this.getApi()}>get</button>
-            <button onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
-          </li>
+      <div className="content">
+        <div className="App">
+            UID: {this.state.user && this.state.user.uid}
+          {this.state.user ? (
+            <button onClick={this.logout}>Google L ogout</button>
+          ) : (
+            <button onClick={this.login}>Google Login</button>
+          )}
+          <header className="header">
+            <div className="header_inner">
+             <h1 className="header_title">ウィキリレー</h1>
+            </div>
+          </header>
+          <div className="wikiName">
+           <h2 className="wikiName_title">{this.state.headTitle}</h2>
+          </div>
+          <div className="nextButton">
+              {/* <button onClick={() => this.getApi()}>get</button> */}
+              <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
+          </div>
           {this.list(this.state.links)}
-        </ul>
+        </div>
       </div>
     )
   }
