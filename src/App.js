@@ -4,11 +4,18 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import firebase from './firebase'
 import './scss/style.scss'
+import { BrowserRouter, Route, Link,Switch } from 'react-router-dom'
 
 import axios from 'axios';
 import { DEFAULT_ECDH_CURVE } from 'tls'
 
 
+  //Route
+  const User = (state) =>　(
+    <div>
+      <h2>User Hello</h2>
+    </div>
+  )
 class App extends React.Component {
   constructor(){
     super();
@@ -101,7 +108,6 @@ class App extends React.Component {
       </ul>
     );
   }
-
   render() {
     return (
       <div className="content">
@@ -115,6 +121,12 @@ class App extends React.Component {
           <header className="header">
             <div className="header_inner">
              <h1 className="header_title">ウィキリレー</h1>
+             <BrowserRouter>
+                  <p><Link to='/'>Home</Link></p>
+                  <p><Link to='/user'>User</Link></p>
+                  <Route exact path="/"　render={(props) => <h2>Home{this.state.headTitle}ワード</h2>}/>
+                  <Route path="/user" component={User}/>
+             </BrowserRouter>
             </div>
           </header>
           <div className="counttWord">
