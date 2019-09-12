@@ -18,6 +18,7 @@ class App extends React.Component {
       headTitle: '',
       NextLinkKey: '',
       NextTitle: [],
+      selectWord: ['ハリー・ポッターシリーズ'],
     }
   }
 
@@ -43,6 +44,8 @@ class App extends React.Component {
     const title = e.target.getAttribute('data-title');
     this.setState({ NextTitle: title });
     this.getApi(title,e);
+    this.setState({ selectWord: this.state.selectWord.concat(title)});
+    
   }
   getApiNextPage = (NextLinkKey) => {
     axios
@@ -58,8 +61,8 @@ class App extends React.Component {
     })
     .catch(error => {
       // 非同期処理失敗。呼ばれない
-      console.log(error);
-      console.log("dataError");
+      const nextButton_button = document.querySelector('.nextButton_button');
+      nextButton_button.textContent = 'EndWord';
     });
   }
   getApi = (url,e) => {
@@ -114,8 +117,18 @@ class App extends React.Component {
              <h1 className="header_title">ウィキリレー</h1>
             </div>
           </header>
+          <div className="counttWord">
+            <p>カウント</p>
+            <p>{this.state.selectWord.length}</p>
+          </div>
+          <div className="selectWord">
+            <p>セレクトワード</p>
+            <p>{this.state.selectWord}</p>
+          </div>
           <div className="wikiName">
-           <h2 className="wikiName_title">{this.state.headTitle}</h2>
+            <h2 className="wikiName_title">
+              <a href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
+            </h2>
           </div>
           <div className="nextButton">
               {/* <button onClick={() => this.getApi()}>get</button> */}
