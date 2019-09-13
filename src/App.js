@@ -94,7 +94,6 @@ class App extends React.Component {
     });
   }
   list = (links) =>{
-    console.log(links)
     const titleList = links.map( (link,index) => {
       return (
         <li key={index} className="linkList_item">
@@ -107,6 +106,21 @@ class App extends React.Component {
         {titleList.slice().reverse()}
       </ul>
     );
+  }
+  selectWordList = (selectword) =>{
+    console.log(selectword)
+    const selectwordList = selectword.map( (word,index) => {
+      return (
+        <li key={index} className="selectWord_list_item">
+          {word}
+        </li>
+      );
+    });
+    return (
+      <ul className="selectWord_list">
+        {selectwordList}
+      </ul>
+    )
   }
   render() {
     return (
@@ -138,17 +152,16 @@ class App extends React.Component {
               <Route exact path="/"　render={(props) => 
                 <div>
                   <div className="counttWord">
-                    <p>カウント</p>
-                    <p>{this.state.selectWord.length}</p>
+                    <p className="counttWord_text"><span>移動した回数:</span><span>{this.state.selectWord.length}</span></p>
                   </div>
                   <div className="selectWord">
-                    <p>セレクトワード</p>
-                    <p>{this.state.selectWord}</p>
+                    <div className="selectWord_inner">
+                      <p>セレクトワード</p>
+                      {this.selectWordList(this.state.selectWord)}
+                    </div>
                   </div>
                   <div className="wikiName">
-                    <h2 className="wikiName_title">
-                      <a href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
-                    </h2>
+                      <a className="wikiName_title" href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
                   </div>
                   <div className="nextButton">
                       {/* <button onClick={() => this.getApi()}>get</button> */}
