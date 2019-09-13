@@ -25,6 +25,9 @@ body{
 .header{
     &_inner{
         padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     &_title{
         font-size: 48px;
@@ -37,6 +40,10 @@ body{
     &_title{
         font-size: 32px;
         font-weight: bold;
+        border: 1px solid #a7d7f9;
+        border-radius: 10px;
+        display: inline-block;
+        padding: 0 30px;
     }
 }
 .content{
@@ -48,6 +55,8 @@ body{
     display: flex;
     flex-wrap: wrap;
     margin-top: 30px;
+    border: 1px solid #a7d7f9;
+    border-radius: 10px;
     &_item{
         width: 20%;
         text-align: center;
@@ -73,5 +82,13 @@ body{
             background-color: black;
             color: white;
         }
+    }
+}
+
+//menu
+
+.menu{
+    &_list{
+        &_item{}
     }
 }

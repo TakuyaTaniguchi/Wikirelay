@@ -86,7 +86,7 @@ video {
 
 body {
   line-height: 1.7;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: sans-serif;
 }
 
 article,
@@ -138,6 +138,11 @@ a {
   margin: 0;
   padding: 0;
   vertical-align: baseline;
+  text-decoration: none;
+  color: #0645ad;
+  &:visited{
+    color: #0b0080;
+  }
 }
 
 /* change colours to suit your needs */

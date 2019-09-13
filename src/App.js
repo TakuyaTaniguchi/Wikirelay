@@ -11,15 +11,15 @@ import { DEFAULT_ECDH_CURVE } from 'tls'
 
 
   //Route
-  const User = (state) =>　(
-    <div>
-      <h2>User Hello</h2>
-    </div>
-  )
+  const User = ({ match }) => <p>User ID: {match.params.id}</p>;
+
+
+
 class App extends React.Component {
   constructor(){
     super();
     this.state = {
+      userid: 'Rin',
       user: null,
       links: [],
       headTitle: '',
@@ -110,6 +110,7 @@ class App extends React.Component {
   }
   render() {
     return (
+      <BrowserRouter>
       <div className="content">
         <div className="App">
             UID: {this.state.user && this.state.user.uid}
@@ -121,34 +122,44 @@ class App extends React.Component {
           <header className="header">
             <div className="header_inner">
              <h1 className="header_title">ウィキリレー</h1>
-             <BrowserRouter>
-                  <p><Link to='/'>Home</Link></p>
-                  <p><Link to='/user'>User</Link></p>
-                  <Route exact path="/"　render={(props) => <h2>Home{this.state.headTitle}ワード</h2>}/>
-                  <Route path="/user" component={User}/>
-             </BrowserRouter>
-            </div>
-          </header>
-          <div className="counttWord">
-            <p>カウント</p>
-            <p>{this.state.selectWord.length}</p>
-          </div>
-          <div className="selectWord">
-            <p>セレクトワード</p>
-            <p>{this.state.selectWord}</p>
-          </div>
-          <div className="wikiName">
-            <h2 className="wikiName_title">
-              <a href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
-            </h2>
-          </div>
-          <div className="nextButton">
-              {/* <button onClick={() => this.getApi()}>get</button> */}
-              <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
-          </div>
-          {this.list(this.state.links)}
+                    <div className="menu">
+                      <ul className="menu_list">
+                        <li className="menu_list_item">
+                          <Link to='/'>Home</Link>
+                        </li>
+                        <li className="menu_list_item">
+                          <Link to={`/user/${this.state.userid}`}>User</Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+            </header>
+            <Route exact path="/"　render={(props) => 
+              <div>
+                <div className="counttWord">
+                  <p>カウント</p>
+                  <p>{this.state.selectWord.length}</p>
+                </div>
+                <div className="selectWord">
+                  <p>セレクトワード</p>
+                  <p>{this.state.selectWord}</p>
+                </div>
+                <div className="wikiName">
+                  <h2 className="wikiName_title">
+                    <a href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
+                  </h2>
+                </div>
+                <div className="nextButton">
+                    {/* <button onClick={() => this.getApi()}>get</button> */}
+                    <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
+                </div>
+                  {this.list(this.state.links)}
+              </div>}/>
+              {/* <Route path="/user/:id" component={User}/> */}
+            <Route path="/user/:id" render={( props ) => <p>User ID: {props.match.params.id}</p>} />
         </div>
       </div>
+      </BrowserRouter>
     )
   }
 }
