@@ -112,7 +112,7 @@ class App extends React.Component {
     const selectwordList = selectword.map( (word,index) => {
       return (
         <li key={index} className="selectWord_list_item">
-          {word}
+          {word}<span className="selectWord_arrow">→</span>
         </li>
       );
     });

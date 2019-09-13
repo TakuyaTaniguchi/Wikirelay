@@ -82,6 +82,13 @@ body{
     &_inner{
         padding: 20px;
     }
+    &_list{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &_arrow{
+        margin: 0 15px;
+    }
 }
 .nextButton{
     margin-top: 30px;
