@@ -134,31 +134,46 @@ class App extends React.Component {
                     </div>
                   </div>
             </header>
-            <Route exact path="/"　render={(props) => 
-              <div>
-                <div className="counttWord">
-                  <p>カウント</p>
-                  <p>{this.state.selectWord.length}</p>
+            <div className="main">
+              <Route exact path="/"　render={(props) => 
+                <div>
+                  <div className="counttWord">
+                    <p>カウント</p>
+                    <p>{this.state.selectWord.length}</p>
+                  </div>
+                  <div className="selectWord">
+                    <p>セレクトワード</p>
+                    <p>{this.state.selectWord}</p>
+                  </div>
+                  <div className="wikiName">
+                    <h2 className="wikiName_title">
+                      <a href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
+                    </h2>
+                  </div>
+                  <div className="nextButton">
+                      {/* <button onClick={() => this.getApi()}>get</button> */}
+                      <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
+                  </div>
+                    {this.list(this.state.links)}
+                </div>}/>
+                {/* <Route path="/user/:id" component={User}/> */}
+              <Route path="/user/:id" render={( props ) => <p>User ID: {props.match.params.id}</p>} />
+            </div>
+            <footer className="footer">
+                <div className="footer_inner">
+                  <ul>
+                    <li>
+                      <a href="https://github.com/TakuyaTaniguchi/Wikirelay">github</a>
+                    </li>
+                    <li>
+                      <a href="https://twitter.com/RinstarskyKujat">Twitter</a>
+                    </li>
+                  </ul>
                 </div>
-                <div className="selectWord">
-                  <p>セレクトワード</p>
-                  <p>{this.state.selectWord}</p>
-                </div>
-                <div className="wikiName">
-                  <h2 className="wikiName_title">
-                    <a href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
-                  </h2>
-                </div>
-                <div className="nextButton">
-                    {/* <button onClick={() => this.getApi()}>get</button> */}
-                    <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
-                </div>
-                  {this.list(this.state.links)}
-              </div>}/>
-              {/* <Route path="/user/:id" component={User}/> */}
-            <Route path="/user/:id" render={( props ) => <p>User ID: {props.match.params.id}</p>} />
+            </footer>
         </div>
       </div>
+
       </BrowserRouter>
     )
   }
