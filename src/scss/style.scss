@@ -7,6 +7,7 @@
 body{
     position: relative;
     z-index: 1;
+    background-color: #f6f6f6;
     &::after{
         content: '';
         position: fixed;
@@ -38,7 +39,7 @@ body{
      text-align: center;
      margin-top: 30px;
     &_title{
-        font-size: 32px;
+        font-size: 26px;
         font-weight: bold;
         border: 1px solid #a7d7f9;
         border-radius: 10px;
@@ -56,6 +57,7 @@ body{
     display: flex;
     flex-wrap: wrap;
     margin-top: 30px;
+    padding: 15px;
     border: 1px solid #a7d7f9;
     border-radius: 10px;
     background-color: white;
@@ -66,8 +68,34 @@ body{
         padding: 0 15px;
     }
 }
+
+//todayTheme
+
+.todayTheme{
+    border: 1px solid #a7d7f9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    background-color:white;
+    &_title{
+        font-size: 32px;
+    }
+    &_relay{
+        font-size: 28px;
+    }
+    &_wavyline{
+        margin: 0 15px;
+    }
+}
+
 //counttWord
 .counttWord{
+    border: 1px solid #a7d7f9;
+    background-color:white;
+    border-radius: 10px;
+    padding: 0 15px;
+    display: inline-block;
+    margin-top: 15px;
     &_text{
         font-weight: bold;
     }
@@ -77,21 +105,32 @@ body{
 .selectWord{
     display: block;
     border: 1px solid #a7d7f9;
+    background-color:white;
     border-radius: 10px;
     margin-top: 15px;
     &_inner{
         padding: 20px;
     }
+    &_title{
+        font-weight: bold;
+    }
     &_list{
         display: flex;
         flex-wrap: wrap;
+        margin-top: 10px;
     }
     &_arrow{
         margin: 0 15px;
     }
 }
+.wikisection{
+    text-align: center;
+    position: relative;
+}
 .nextButton{
-    margin-top: 30px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     &_button{
         display: block;
         cursor: pointer;
@@ -106,25 +145,17 @@ body{
         border: 1px solid #a7d7f9;
         border-radius: 10px;
         &:hover{
-            background-color: black;
-            color: white;
+            background-color: #a7d7f9;
         }
     }
 }
 
-//menu
-
-.menu{
-    &_list{
-        &_item{}
-    }
-}
 
 .footer{
     &_inner{
         padding: 20px;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
     }
 }

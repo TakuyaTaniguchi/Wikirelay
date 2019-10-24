@@ -3,6 +3,7 @@ import { render } from "react-dom"
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import firebase from './firebase'
+// import firebaseAdmin from 'firebase-admin'
 import './scss/style.scss'
 import { BrowserRouter, Route, Link,Switch } from 'react-router-dom'
 
@@ -12,8 +13,6 @@ import { DEFAULT_ECDH_CURVE } from 'tls'
 
   //Route
   const User = ({ match }) => <p>User ID: {match.params.id}</p>;
-
-
 
 class App extends React.Component {
   constructor(){
@@ -34,6 +33,15 @@ class App extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ user })
     })
+    this.writeUserData(0)
+  }
+
+  //Firebase
+  writeUserData(userId, name) {
+    firebase.database().ref('users/' + userId).set({
+      username: 'fuge',
+      date: '10',
+    });
   }
 
   login() {
@@ -151,21 +159,28 @@ class App extends React.Component {
             <div className="main">
               <Route exact path="/"　render={(props) => 
                 <div>
+                  <div className="todayTheme">
+                    <h3 className="todayTheme_title">本日のお題</h3>
+                    <p className="todayTheme_relay">ハリーポッター<span className="todayTheme_wavyline">〜〜〜〜〜</span>ハーマイオニー</p>
+                  </div>
+
                   <div className="counttWord">
-                    <p className="counttWord_text"><span>移動した回数:</span><span>{this.state.selectWord.length}</span></p>
+                    <p className="counttWord_text"><span>移動した回数:</span><span>{this.state.selectWord.length - 1}</span></p>
                   </div>
                   <div className="selectWord">
                     <div className="selectWord_inner">
-                      <p>セレクトワード</p>
+                      <p className="selectWord_title">セレクトワード</p>
                       {this.selectWordList(this.state.selectWord)}
                     </div>
                   </div>
-                  <div className="wikiName">
-                      <a className="wikiName_title" href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
-                  </div>
-                  <div className="nextButton">
-                      {/* <button onClick={() => this.getApi()}>get</button> */}
-                      <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
+                  <div className="wikisection">
+                    <div className="wikiName">
+                        <a className="wikiName_title" href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
+                    </div>
+                    <div className="nextButton">
+                        {/* <button onClick={() => this.getApi()}>get</button> */}
+                        <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
+                    </div>
                   </div>
                     {this.list(this.state.links)}
                 </div>}/>
