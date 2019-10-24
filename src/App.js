@@ -10,10 +10,9 @@ import { BrowserRouter, Route, Link,Switch } from 'react-router-dom'
 import axios from 'axios';
 import { DEFAULT_ECDH_CURVE } from 'tls'
 
-
   //Route
   const User = ({ match }) => <p>User ID: {match.params.id}</p>;
-
+  const dataArray = [{theme: 'ア〜日本',clearDate: '2019',clearWord: ['アメリカ','日本'],}]
 class App extends React.Component {
   constructor(){
     super();
@@ -33,14 +32,17 @@ class App extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ user })
     })
-    this.writeUserData(0)
   }
 
   //Firebase
+  //dataにプッシュする。
+  //最初に全てのデータを取り出して保存しておく、新しいデータを配列にpushしてセットし直す。
   writeUserData(userId, name) {
+    dataArray.push({theme: 'インド〜カナダ',clearDate: '2019',clearWord: ['アメリカ','日本'],})
+    console.log(dataArray)
     firebase.database().ref('users/' + userId).set({
-      username: 'fuge',
-      date: '10',
+      username: userId,
+      data: dataArray,
     });
   }
 
@@ -134,6 +136,8 @@ class App extends React.Component {
     return (
       <BrowserRouter>
       <div className="content">
+        <button onClick={(e) => this.writeUserData(this.state.user.uid)}>SETDATA</button>
+
         <div className="App">
             UID: {this.state.user && this.state.user.uid}
           {this.state.user ? (
