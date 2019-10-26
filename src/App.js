@@ -132,11 +132,21 @@ class App extends React.Component {
       </ul>
     )
   }
+  getData(){
+    var database = firebase.database();
+    var dataRef = database.ref('/users/PhHHwu8zn1cl7FrG5qSf9mhYLZr1');
+    dataRef.once("value")
+    .then(function(snapshot) {
+        const data = snapshot.child("data").val();
+        console.log(data)
+    });
+  }
   render() {
     return (
       <BrowserRouter>
       <div className="content">
         <button onClick={(e) => this.writeUserData(this.state.user.uid)}>SETDATA</button>
+        <button onClick={(e) => this.getData()}>GetDATA</button>
 
         <div className="App">
             UID: {this.state.user && this.state.user.uid}
