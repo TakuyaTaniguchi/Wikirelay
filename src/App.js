@@ -171,27 +171,31 @@ class App extends React.Component {
         <button onClick={(e) => this.getData()}>GetDATA</button>
 
         <div className="App">
-            UID: {this.state.user && this.state.user.uid}
-          {this.state.user ? (
-            <button onClick={this.logout}>Google L ogout</button>
-          ) : (
-            <button onClick={this.login}>Google Login</button>
-          )}
           <header className="header">
             <div className="header_inner">
-             <h1 className="header_title">ウィキリレー</h1>
-                    <div className="menu">
-                      <ul className="menu_list">
-                        <li className="menu_list_item">
-                          <Link to='/'>Home</Link>
-                        </li>
-                        <li className="menu_list_item">
-                          <Link to={`/user/${this.state.userid}`}>User</Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-            </header>
+              <div className="header_nav">
+                <h1 className="header_title">ウィキリレー</h1>
+                <nav className="menu">
+                  <ul className="menu_list">
+                    <li className="menu_list_item">
+                      <Link className="menu_list_item_link" to='/'>Home</Link>
+                    </li>
+                    <li className="menu_list_item">
+                      <Link className="menu_list_item_link" to={`/user/${this.state.userid}`}>User</Link>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              <div className="header_account">
+              {/* UID: {this.state.user && this.state.user.uid} */}
+                {this.state.user ? (
+                  <button className="header_account_button" onClick={this.logout}>ログアウト</button>
+                ) : (
+                  <button className="header_account_button" onClick={this.login}>ログイン</button>
+                )}
+              </div>
+            </div>
+          </header>
             <div className="main">
               <Route exact path="/"　render={(props) => 
                 <div>
@@ -223,11 +227,30 @@ class App extends React.Component {
                 {/* <Route path="/user/:id" component={User}/> */}
               <Route path="/user/:id" render={( props ) =>
                 <div>
-                  <p>User ID: {props.match.params.id}</p>
+                  {/* <p>User ID: {props.match.params.id}</p> */}
+                  <p>ユーザネーム: {props.match.params.id}</p>
                   <div>
-                    <p>clearDate</p>
+                    <p>リレー記録</p>
+                    <ul>
+                      <li>
+                        <p>遊んだ日: 2019-09-09</p>
+                      </li>
+                      <li>
+                        <p>お題: ハーマイオニー〜ハリーポッター</p>
+                      </li>
+                    </ul>
+
+                    <div className="p-record">
+                      <p className="p-record_title">選んだ単語</p>
+                      <ul className="p-record_list">
+                        <li className="p-record_list_item">ハーマイオニー</li>
+                        <li className="p-record_list_item">賢者の石</li>
+                        <li className="p-record_list_item">ハリー・ポッター</li>
+                      </ul>
+                    </div>
                     {this.renderClearData(this.state.clearDate)}
                   </div>
+                  <button className="c-buttonDelete">アカウント削除</button>
                 </div>
                   } />
             </div>
