@@ -10,6 +10,9 @@ import { BrowserRouter, Route, Link,Switch } from 'react-router-dom'
 import axios from 'axios';
 import { DEFAULT_ECDH_CURVE } from 'tls'
 
+const database = firebase.database();
+const dataRef = database.ref('/users/PhHHwu8zn1cl7FrG5qSf9mhYLZr1');
+
   //Route
   const User = ({ match }) => <p>User ID: {match.params.id}</p>;
   const dataArray = [{theme: 'ア〜日本',clearDate: '2019',clearWord: ['アメリカ','日本'],}]
@@ -24,6 +27,7 @@ class App extends React.Component {
       NextLinkKey: '',
       NextTitle: [],
       selectWord: ['ハリー・ポッターシリーズ'],
+      clearDate: [],
     }
   }
 
@@ -132,14 +136,32 @@ class App extends React.Component {
       </ul>
     )
   }
-  getData(){
-    var database = firebase.database();
-    var dataRef = database.ref('/users/PhHHwu8zn1cl7FrG5qSf9mhYLZr1');
+  getData = () =>{
+    const _this = this;
     dataRef.once("value")
     .then(function(snapshot) {
+      console.log(_this)
         const data = snapshot.child("data").val();
-        console.log(data)
+        _this.setState({clearDate: data})
     });
+  }
+  renderClearData = (renderData) =>{
+    console.log(renderData,'renderData')
+    const data = renderData.map((renderItem,index) => {
+      console.log()
+      return (
+        <React.Fragment key={index}>
+          <li>{renderItem.theme}</li>
+          <li>{renderItem.clearDate}</li>
+        </React.Fragment>
+        
+      )
+    });
+    return (
+      <ul>
+        {data}
+      </ul>
+    )
   }
   render() {
     return (
@@ -199,7 +221,15 @@ class App extends React.Component {
                     {this.list(this.state.links)}
                 </div>}/>
                 {/* <Route path="/user/:id" component={User}/> */}
-              <Route path="/user/:id" render={( props ) => <p>User ID: {props.match.params.id}</p>} />
+              <Route path="/user/:id" render={( props ) =>
+                <div>
+                  <p>User ID: {props.match.params.id}</p>
+                  <div>
+                    <p>clearDate</p>
+                    {this.renderClearData(this.state.clearDate)}
+                  </div>
+                </div>
+                  } />
             </div>
             <footer className="footer">
                 <div className="footer_inner">
