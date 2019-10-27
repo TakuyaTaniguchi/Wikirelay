@@ -28,6 +28,7 @@ class App extends React.Component {
       NextTitle: [],
       selectWord: ['ハリー・ポッターシリーズ'],
       clearDate: [],
+      theme: ['ハリー・ポッターシリーズ','ハーマイオニー']
     }
   }
 
@@ -67,6 +68,16 @@ class App extends React.Component {
     this.getApi(title,e);
     this.setState({ selectWord: this.state.selectWord.concat(title)});
     
+  }
+
+  matchWord = (selectWord, theme) => {
+    const themeStartWord = theme[0];
+    const themeEndtWord = theme[1];
+
+    const selectStartWord = selectWord[0];
+    const selectEndWord = selectWord[selectWord.length - 1];
+    console.log(selectStartWord,selectEndWord ,'selectStartWord,selectEndWord')
+    console.log(themeStartWord,themeEndtWord)
   }
   getApiNextPage = (NextLinkKey) => {
     axios
@@ -169,12 +180,13 @@ class App extends React.Component {
       <div className="content">
         <button onClick={(e) => this.writeUserData(this.state.user.uid)}>SETDATA</button>
         <button onClick={(e) => this.getData()}>GetDATA</button>
+        <button onClick={(e) => this.matchWord(this.state.selectWord,this.state.theme)}>MatcheDATA</button>
 
         <div className="App">
           <header className="header">
             <div className="header_inner">
               <div className="header_nav">
-                <h1 className="header_title">ウィキリレー</h1>
+                <h1 className="header_title">うぃきりれー</h1>
                 <nav className="menu">
                   <ul className="menu_list">
                     <li className="menu_list_item">
@@ -200,11 +212,11 @@ class App extends React.Component {
             </div>
           </header>
             <div className="main">
-              <Route exact path="/"　render={(props) => 
+              <Route exact path="/"　render={(props) =>                           
                 <div>
                   <div className="todayTheme">
                     <h3 className="todayTheme_title">本日のお題</h3>
-                    <p className="todayTheme_relay">ハリーポッター<span className="todayTheme_wavyline">〜〜〜〜〜</span>ハーマイオニー</p>
+                    <p className="todayTheme_relay">ハリー・ポッターシリーズ<span className="todayTheme_wavyline">〜〜〜〜〜</span>ハーマイオニー</p>
                   </div>
 
                   <div className="counttWord">
