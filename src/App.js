@@ -28,7 +28,8 @@ class App extends React.Component {
       NextTitle: [],
       selectWord: ['ハリー・ポッターシリーズ'],
       clearDate: [],
-      theme: ['ハリー・ポッターシリーズ','ハーマイオニー']
+      theme: ['ハリー・ポッターシリーズ','12月8日'],
+      clearFlag: false,
     }
   }
 
@@ -78,6 +79,11 @@ class App extends React.Component {
     const selectEndWord = selectWord[selectWord.length - 1];
     console.log(selectStartWord,selectEndWord ,'selectStartWord,selectEndWord')
     console.log(themeStartWord,themeEndtWord)
+    if(themeEndtWord === selectEndWord){
+      this.setState({clearFlag: true})
+    }else{
+      return false;
+    }
   }
   getApiNextPage = (NextLinkKey) => {
     axios
@@ -183,6 +189,12 @@ class App extends React.Component {
         <button onClick={(e) => this.matchWord(this.state.selectWord,this.state.theme)}>MatcheDATA</button>
 
         <div className="App">
+            {this.state.clearFlag ? (
+                      <p>クリアしたとき</p>
+            ) : (
+              <p>クリアsitenaitoki
+              </p>
+            )}
           <header className="header">
             <div className="header_inner">
               <div className="header_nav">
@@ -216,7 +228,7 @@ class App extends React.Component {
                 <div>
                   <div className="todayTheme">
                     <h3 className="todayTheme_title">本日のお題</h3>
-                    <p className="todayTheme_relay">ハリー・ポッターシリーズ<span className="todayTheme_wavyline">〜〜〜〜〜</span>ハーマイオニー</p>
+                    <p className="todayTheme_relay">ハリー・ポッターシリーズ<span className="todayTheme_wavyline">〜〜〜〜〜</span>12月8日</p>
                   </div>
 
                   <div className="counttWord">
@@ -252,14 +264,14 @@ class App extends React.Component {
                           <p className="p-relay_list_item_date">遊んだ日: 2019-09-09</p>
                         </li>
                         <li className="p-relay_list_item">
-                          <p className="p-relay_list_item_theme">お題: ハーマイオニー〜ハリーポッター</p>
+                          <p className="p-relay_list_item_theme">お題: 12月8日〜ハリーポッター</p>
                         </li>
                       </ul>
                     </div>
                     <div className="p-record">
                       <p className="p-record_title">選んだ単語</p>
                       <ul className="p-record_list">
-                        <li className="p-record_list_item -is-start">ハーマイオニー</li>
+                        <li className="p-record_list_item -is-start">12月8日</li>
                         <li className="p-record_list_item">賢者の石</li>
                         <li className="p-record_list_item -is-goal">ハリー・ポッター</li>
                       </ul>
@@ -274,14 +286,14 @@ class App extends React.Component {
                           <p>遊んだ日: 2019-09-09</p>
                         </li>
                         <li className="p-relay_list_item">
-                          <p>お題: ハーマイオニー〜ハリーポッター</p>
+                          <p>お題: 12月8日〜ハリーポッター</p>
                         </li>
                       </ul>
                     </div>
                     <div className="p-record">
                       <p className="p-record_title">選んだ単語</p>
                       <ul className="p-record_list">
-                        <li className="p-record_list_item -is-start">ハーマイオニー</li>
+                        <li className="p-record_list_item -is-start">12月8日</li>
                         <li className="p-record_list_item">賢者の石</li>
                         <li className="p-record_list_item -is-goal">ハリー・ポッター</li>
                       </ul>
