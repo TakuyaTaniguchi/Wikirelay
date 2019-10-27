@@ -29,7 +29,7 @@ class App extends React.Component {
       selectWord: ['ハリー・ポッターシリーズ'],
       clearDate: [],
       theme: ['ハリー・ポッターシリーズ','12月8日'],
-      clearFlag: false,
+      clearFlag: true,
     }
   }
 
@@ -190,7 +190,18 @@ class App extends React.Component {
 
         <div className="App">
             {this.state.clearFlag ? (
-                      <p>クリアしたとき</p>
+                      <div className="p-modal">
+                        <div className="p-modal_inner">
+                          <p className="p-modal_title">くりあ〜！！！</p>
+                          <div className="p-modal_button">
+                            <button className="p-modal_button_button -is-retry">もう一度遊ぶ？</button>
+                            <button className="p-modal_button_button -is-record">記録する？</button>
+                          </div>
+                          <div className="p-modal_button -is-center">
+                            <button className="p-modal_button_button -is-tweet"> 結果をツイートする？</button>
+                          </div>
+                        </div>
+                      </div>
             ) : (
               <p>クリアsitenaitoki
               </p>
