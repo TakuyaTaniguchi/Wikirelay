@@ -29,7 +29,7 @@ class App extends React.Component {
       selectWord: ['ハリー・ポッターシリーズ'],
       clearDate: [],
       theme: ['ハリー・ポッターシリーズ','12月8日'],
-      clearFlag: true,
+      clearFlag: false,
     }
   }
 
@@ -171,7 +171,6 @@ class App extends React.Component {
           <li>{renderItem.theme}</li>
           <li>{renderItem.clearDate}</li>
         </React.Fragment>
-        
       )
     });
     return (
@@ -192,6 +191,7 @@ class App extends React.Component {
             {this.state.clearFlag ? (
                       <div className="p-modal">
                         <div className="p-modal_inner">
+                          <button className="p-modal_buttonClose" onClick={(e) => this.setState({ clearFlag: false }) }>×</button>
                           <p className="p-modal_title">くりあ〜！！！</p>
                           <div className="p-modal_button">
                             <button className="p-modal_button_button -is-retry">もう一度遊ぶ？</button>
@@ -203,8 +203,7 @@ class App extends React.Component {
                         </div>
                       </div>
             ) : (
-              <p>クリアsitenaitoki
-              </p>
+              <React.Fragment></React.Fragment>
             )}
           <header className="header">
             <div className="header_inner">
