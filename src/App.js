@@ -178,10 +178,13 @@ class App extends React.Component {
                 <nav className="menu">
                   <ul className="menu_list">
                     <li className="menu_list_item">
-                      <Link className="menu_list_item_link" to='/'>Home</Link>
+                      <Link className="menu_list_item_link" to='/'>ほーむ</Link>
                     </li>
                     <li className="menu_list_item">
-                      <Link className="menu_list_item_link" to={`/user/${this.state.userid}`}>User</Link>
+                      <Link className="menu_list_item_link" to={`/user/${this.state.userid}`}>ゆーざー</Link>
+                    </li>
+                    <li className="menu_list_item">
+                      <Link className="menu_list_item_link" to={`/about`}>あばうと</Link>
                     </li>
                   </ul>
                 </nav>
@@ -228,24 +231,47 @@ class App extends React.Component {
               <Route path="/user/:id" render={( props ) =>
                 <div>
                   {/* <p>User ID: {props.match.params.id}</p> */}
-                  <p>ユーザネーム: {props.match.params.id}</p>
-                  <div>
-                    <p>リレー記録</p>
-                    <ul>
-                      <li>
-                        <p>遊んだ日: 2019-09-09</p>
-                      </li>
-                      <li>
-                        <p>お題: ハーマイオニー〜ハリーポッター</p>
-                      </li>
-                    </ul>
-
+                  <p className="p-userName">ユーザネーム: {props.match.params.id}</p>
+                  <div className="p-result">
+                    <div className="p-relay">
+                      <p className="p-relay_title">リレー記録</p>
+                      <ul className="p-relay_list">
+                        <li className="p-relay_list_item">
+                          <p className="p-relay_list_item_date">遊んだ日: 2019-09-09</p>
+                        </li>
+                        <li className="p-relay_list_item">
+                          <p className="p-relay_list_item_theme">お題: ハーマイオニー〜ハリーポッター</p>
+                        </li>
+                      </ul>
+                    </div>
                     <div className="p-record">
                       <p className="p-record_title">選んだ単語</p>
                       <ul className="p-record_list">
-                        <li className="p-record_list_item">ハーマイオニー</li>
+                        <li className="p-record_list_item -is-start">ハーマイオニー</li>
                         <li className="p-record_list_item">賢者の石</li>
-                        <li className="p-record_list_item">ハリー・ポッター</li>
+                        <li className="p-record_list_item -is-goal">ハリー・ポッター</li>
+                      </ul>
+                    </div>
+                    {this.renderClearData(this.state.clearDate)}
+                  </div>
+                  <div className="p-result">
+                    <div className="p-relay">
+                      <p className="p-relay_title">リレー記録</p>
+                      <ul className="p-relay_list">
+                        <li className="p-relay_list_item">
+                          <p>遊んだ日: 2019-09-09</p>
+                        </li>
+                        <li className="p-relay_list_item">
+                          <p>お題: ハーマイオニー〜ハリーポッター</p>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="p-record">
+                      <p className="p-record_title">選んだ単語</p>
+                      <ul className="p-record_list">
+                        <li className="p-record_list_item -is-start">ハーマイオニー</li>
+                        <li className="p-record_list_item">賢者の石</li>
+                        <li className="p-record_list_item -is-goal">ハリー・ポッター</li>
                       </ul>
                     </div>
                     {this.renderClearData(this.state.clearDate)}
@@ -253,15 +279,24 @@ class App extends React.Component {
                   <button className="c-buttonDelete">アカウント削除</button>
                 </div>
                   } />
+              <Route path="/about" render={( props ) =>
+                <div>
+                  <p>このゲームについて</p>
+                  <p>wikipediaとは「すべてのウィキメディアプロジェクトをはじめ、誰でも自由に利用できる画像・音声・動画、その他あらゆる情報を包括し供給する[2]」ことを目的とするフリーな百科事典プロジェクトです。
+                  <br />そんなwikioediaにまつわる噂をご存知でしょうか。
+                  <br />膨大なデータベースを保有しているWikipediaのハイパーリンクを6回辿ればどの言葉にも繋がるという噂です。
+                  <br />そんな、噂をゲームにしてみたのが本サイトです。</p>
+                </div>
+              } />
             </div>
             <footer className="footer">
                 <div className="footer_inner">
-                  <ul>
-                    <li>
-                      <a href="https://github.com/TakuyaTaniguchi/Wikirelay">github</a>
+                  <ul className="p-snsList">
+                    <li className="p-snsList_item">
+                      <a className="p-snsList_item_link" href="https://github.com/TakuyaTaniguchi/Wikirelay">github</a>
                     </li>
-                    <li>
-                      <a href="https://twitter.com/RinstarskyKujat">Twitter</a>
+                    <li className="p-snsList_item">
+                      <a className="p-snsList_item_link" href="https://twitter.com/RinstarskyKujat">Twitter</a>
                     </li>
                   </ul>
                 </div>

@@ -183,11 +183,26 @@ body{
 
 
 .footer{
+    margin-top: 60px;
     &_inner{
         padding: 20px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
+    }
+}
+
+.p-userName{
+    font-weight: bold;
+}
+
+.p-result{
+    margin-top: 45px;
+}
+
+.p-relay{
+    &_title{
+        font-weight: bold;
     }
 }
 
@@ -199,12 +214,50 @@ body{
     border: 1px solid crimson;
     background-color: crimson;
     padding: 5px 15px;
+    margin-top: 30px;
 }
-
+.p-snsList{
+    display: flex;
+    align-items: center;
+    &_item{
+        margin-left: 15px;
+        margin-right: 15px;
+        &_link{
+            color: indigo;
+        }
+    }
+}
 //p-record
 .p-record{
-    &_title{}
+    margin-top: 30px;
+    &_title{
+        display: inline;
+        font-weight: bold;
+        border: solid 3px crimson;
+        padding: 5px;
+    }
     &_list{
-        &_item{}
+        border: solid 3px crimson;
+        display: flex;
+        justify-content: flex-start;
+        padding: 15px;
+        &_item{
+            margin-left: 15px;
+            margin-right: 15px;
+            position: relative;
+            &.-is-start{
+                font-weight: bold;
+            }
+            &.-is-goal{
+                font-weight: bold;
+            }
+            &:last-of-type:after{
+                content: none;
+            }
+            &:after{
+                content: '->';
+                margin-left: 15px;
+            }
+        }
     }
 }
