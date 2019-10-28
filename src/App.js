@@ -20,6 +20,7 @@ class App extends React.Component {
   constructor(){
     super();
     this.state = {
+      displayName: '',
       userid: 'Rin',
       user: null,
       links: [],
@@ -36,6 +37,7 @@ class App extends React.Component {
   componentDidMount() {
     this.getApi('ハリー・ポッターシリーズ');
     firebase.auth().onAuthStateChanged(user => {
+      this.setState({ displayName: user.displayName})
       this.setState({ user })
     })
   }
@@ -45,7 +47,6 @@ class App extends React.Component {
   //最初に全てのデータを取り出して保存しておく、新しいデータを配列にpushしてセットし直す。
   writeUserData(userId, name) {
     dataArray.push({theme: 'インド〜カナダ',clearDate: '2019',clearWord: ['アメリカ','日本'],})
-    console.log(dataArray)
     firebase.database().ref('users/' + userId).set({
       username: userId,
       data: dataArray,
@@ -53,13 +54,11 @@ class App extends React.Component {
   }
 
   login() {
-    console.log('login')
     const provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithRedirect(provider)
   }
 
   logout() {
-    console.log('logout')
     firebase.auth().signOut()
   }
   getApiNextWord = (e) =>{
@@ -68,17 +67,15 @@ class App extends React.Component {
     this.setState({ NextTitle: title });
     this.getApi(title,e);
     this.setState({ selectWord: this.state.selectWord.concat(title)});
-    
   }
 
   matchWord = (selectWord, theme) => {
+    console.log('math')
     const themeStartWord = theme[0];
     const themeEndtWord = theme[1];
 
     const selectStartWord = selectWord[0];
     const selectEndWord = selectWord[selectWord.length - 1];
-    console.log(selectStartWord,selectEndWord ,'selectStartWord,selectEndWord')
-    console.log(themeStartWord,themeEndtWord)
     if(themeEndtWord === selectEndWord){
       this.setState({clearFlag: true})
     }else{
@@ -90,7 +87,6 @@ class App extends React.Component {
     .get(`https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=${this.state.headTitle}&plcontinue=${NextLinkKey}`)
     .then(res => {
       const data = res.data;
-      console.log(data);
       const NextLinkKey = data.continue.plcontinue;
       const pgaeId = NextLinkKey.split('|')[0];
       const links = data.query.pages[pgaeId].links;
@@ -104,13 +100,11 @@ class App extends React.Component {
     });
   }
   getApi = (url,e) => {
-    console.log(url,e)
     axios
     .get(`https://ja.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=links&titles=${url}`)
     .then(res => {
       const data = res.data;
       const NextLinkKey = data.continue.plcontinue;
-      console.log(NextLinkKey)
       const pgaeId = NextLinkKey.split('|')[0];
       const headTitle = data.query.pages[pgaeId].title;
       const links = data.query.pages[pgaeId].links;
@@ -128,7 +122,12 @@ class App extends React.Component {
     const titleList = links.map( (link,index) => {
       return (
         <li key={index} className="linkList_item">
-          <a href="/" data-title={link.title} onClick={(e) => this.getApiNextWord(e)}>{link.title}</a>
+          <a href="/" data-title={link.title} onClick={(e) => {
+            this.getApiNextWord(e)
+            setTimeout( () => {
+              this.matchWord(this.state.selectWord,this.state.theme)
+            },1000)
+            }}>{link.title}</a>
         </li>
       );
     });
@@ -139,7 +138,6 @@ class App extends React.Component {
     );
   }
   selectWordList = (selectword) =>{
-    console.log(selectword)
     const selectwordList = selectword.map( (word,index) => {
       return (
         <li key={index} className="selectWord_list_item">
@@ -157,15 +155,12 @@ class App extends React.Component {
     const _this = this;
     dataRef.once("value")
     .then(function(snapshot) {
-      console.log(_this)
         const data = snapshot.child("data").val();
         _this.setState({clearDate: data})
     });
   }
   renderClearData = (renderData) =>{
-    console.log(renderData,'renderData')
     const data = renderData.map((renderItem,index) => {
-      console.log()
       return (
         <React.Fragment key={index}>
           <li>{renderItem.theme}</li>
@@ -183,10 +178,9 @@ class App extends React.Component {
     return (
       <BrowserRouter>
       <div className="content">
-        <button onClick={(e) => this.writeUserData(this.state.user.uid)}>SETDATA</button>
+        {/* <button onClick={(e) => this.writeUserData(this.state.user.uid)}>SETDATA</button>
         <button onClick={(e) => this.getData()}>GetDATA</button>
-        <button onClick={(e) => this.matchWord(this.state.selectWord,this.state.theme)}>MatcheDATA</button>
-
+        <button onClick={(e) => this.matchWord(this.state.selectWord,this.state.theme)}>MatcheDATA</button> */}
         <div className="App">
             {this.state.clearFlag ? (
                       <div className="p-modal">
@@ -214,9 +208,14 @@ class App extends React.Component {
                     <li className="menu_list_item">
                       <Link className="menu_list_item_link" to='/'>ほーむ</Link>
                     </li>
-                    <li className="menu_list_item">
-                      <Link className="menu_list_item_link" to={`/user/${this.state.userid}`}>ゆーざー</Link>
-                    </li>
+                    {this.state.user ? (
+                      <li className="menu_list_item">
+                        <p>aaa</p>
+                        <Link className="menu_list_item_link" to={`/user/${this.state.displayName}`}>ゆーざー</Link>
+                      </li>
+                    ) : (
+                      <React.Fragment></React.Fragment>
+                    )}
                     <li className="menu_list_item">
                       <Link className="menu_list_item_link" to={`/about`}>あばうと</Link>
                     </li>
@@ -224,7 +223,6 @@ class App extends React.Component {
                 </nav>
               </div>
               <div className="header_account">
-              {/* UID: {this.state.user && this.state.user.uid} */}
                 {this.state.user ? (
                   <button className="header_account_button" onClick={this.logout}>ログアウト</button>
                 ) : (
@@ -256,7 +254,9 @@ class App extends React.Component {
                     </div>
                     <div className="nextButton">
                         {/* <button onClick={() => this.getApi()}>get</button> */}
-                        <button className='nextButton_button' onClick={() => this.getApiNextPage(this.state.NextLinkKey)}>NextPage</button>
+                        <button className='nextButton_button' onClick={() => {
+                          this.getApiNextPage(this.state.NextLinkKey)
+                        }}>NextPage</button>
                     </div>
                   </div>
                     {this.list(this.state.links)}
