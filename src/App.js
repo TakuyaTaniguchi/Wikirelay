@@ -62,6 +62,7 @@ fetch(url)
     .then(function(response) {
         var randoms = response.query.random;
         _this.setState({theme: [randoms[0].title,randoms[1].title]})
+        _this.setState({selectWord: [randoms[0].title]})
     })
     .catch(function(error){console.log(error);});
     // let url = 'https://ja.wikipedia.org/w/api.php?action=query&format=json&list=random&rnlimit=2'
@@ -268,6 +269,11 @@ fetch(url)
                     <p className="todayTheme_relay">{this.state.theme[0]}<span className="todayTheme_wavyline">〜〜〜〜〜</span>{this.state.theme[1]}</p>
                     <button className="todayTheme_button" onClick={() =>{
                       this.getWikiWord()
+                      const _this = this;
+                      setTimeout(function(){
+                        _this.getApi(_this.state.theme[0]);
+                      },1000)
+                      
                     }}>次のお題</button>
                   </div>
 
@@ -282,7 +288,7 @@ fetch(url)
                   </div>
                   <div className="wikisection">
                     <div className="wikiName">
-                        <a className="wikiName_title" href={`https://ja.wikipedia.org/wiki/${this.state.headTitle}`} target="_blank">{this.state.headTitle}</a>
+                        <a className="wikiName_title" href={`https://ja.wikipedia.org/wiki/${this.state.theme[0]}`} target="_blank" rel="noopener noreferrer" >{this.state.theme[0]}</a>
                     </div>
                     <div className="nextButton">
                         {/* <button onClick={() => this.getApi()}>get</button> */}
