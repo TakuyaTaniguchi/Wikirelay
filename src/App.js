@@ -42,6 +42,35 @@ class App extends React.Component {
     })
   }
 
+  getWikiWord(){
+    console.log('aaa')
+    var url = "https://ja.wikipedia.org/w/api.php";
+    const _this = this;
+    var params = {
+        action: "query",
+        format: "json",
+        list: "random",
+        rnnamespace: "0",
+        rnlimit: "2"
+    };
+
+    url = url + "?origin=*";
+    Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+
+fetch(url)
+    .then(function(response){return response.json();})
+    .then(function(response) {
+        var randoms = response.query.random;
+        _this.setState({theme: [randoms[0].title,randoms[1].title]})
+    })
+    .catch(function(error){console.log(error);});
+    // let url = 'https://ja.wikipedia.org/w/api.php?action=query&format=json&list=random&rnlimit=2'
+    // url = url + "?origin=*";
+    // axios.get(url).then((response) => {
+    //   console.log(response)
+    // } )
+  }
+
   //Firebase
   //dataにプッシュする。
   //最初に全てのデータを取り出して保存しておく、新しいデータを配列にpushしてセットし直す。
@@ -188,11 +217,11 @@ class App extends React.Component {
                           <button className="p-modal_buttonClose" onClick={(e) => this.setState({ clearFlag: false }) }>×</button>
                           <p className="p-modal_title">くりあ〜！！！</p>
                           <div className="p-modal_button">
-                            <button className="p-modal_button_button -is-retry">もう一度遊ぶ？</button>
-                            <button className="p-modal_button_button -is-record">記録する？</button>
+                            <button className="p-modal_button_button -is-retry" onClick={(e) => this.setState({ clearFlag: false }) }>もう一度遊ぶ？</button>
+                            <button className="p-modal_button_button -is-record">記録する？(準備中)</button>
                           </div>
                           <div className="p-modal_button -is-center">
-                            <button className="p-modal_button_button -is-tweet"> 結果をツイートする？</button>
+                            <button className="p-modal_button_button -is-tweet"> 結果をツイートする？(準備中)</button>
                           </div>
                         </div>
                       </div>
@@ -236,7 +265,10 @@ class App extends React.Component {
                 <div>
                   <div className="todayTheme">
                     <h3 className="todayTheme_title">本日のお題</h3>
-                    <p className="todayTheme_relay">ハリー・ポッターシリーズ<span className="todayTheme_wavyline">〜〜〜〜〜</span>12月8日</p>
+                    <p className="todayTheme_relay">{this.state.theme[0]}<span className="todayTheme_wavyline">〜〜〜〜〜</span>{this.state.theme[1]}</p>
+                    <button className="todayTheme_button" onClick={() =>{
+                      this.getWikiWord()
+                    }}>次のお題</button>
                   </div>
 
                   <div className="counttWord">
